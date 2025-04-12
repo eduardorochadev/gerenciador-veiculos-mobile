@@ -1,20 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 
 export default function WelcomeScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f9fafe" />
+      
       <Image
         source={require('../../assets/Logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
-      <Text style={styles.title}>Bem-vindo</Text>
-      <Text style={styles.subtitle}>O cuidado com seu carro na palma da mão.</Text>
+      
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>Bem-vindo ao Auto Care</Text>
+        <Text style={styles.subtitle}>
+          O cuidado com seu carro na sua mão.
+        </Text>
+      </View>
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Home')} // Ajuste quando a tela Home existir
-        activeOpacity={0.8}
+        onPress={() => navigation.navigate('Home')}
+        activeOpacity={0.85}
       >
         <Text style={styles.buttonText}>Começar</Text>
       </TouchableOpacity>
@@ -28,36 +36,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9fafe',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 60,
+    paddingHorizontal: 10,
   },
   logo: {
     width: 300,
     height: 300,
-    // marginBottom: 10,
+  },
+  textContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: '700',
     color: '#1e293b',
+    marginBottom: 8,
     textAlign: 'center',
-    marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#475569',
+    fontSize: 19,
+    color: '#64748b',
     textAlign: 'center',
-    marginBottom: 50,
+    lineHeight: 24,
   },
   button: {
-    backgroundColor: '#1e90ff',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 12,
-    elevation: 4,
-    shadowColor: '#1e90ff',
-    shadowOpacity: 0.3,
+    backgroundColor: '#2563eb',
+    paddingVertical: 14,
+    paddingHorizontal: 48,
+    borderRadius: 14,
+    shadowColor: '#2563eb',
     shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 6,
   },
   buttonText: {
     color: '#fff',
