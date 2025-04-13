@@ -1,20 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Vehicle = {
+  marca: string;
+  modelo: string;
+  ano: string;
+  placa: string;
+  quilometragem: string;
+};
 
 export default function HomeScreen({ navigation }: any) {
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+
+  useEffect(() => {
+    const loadVehicles = async () => {
+      const jsonValue = await AsyncStorage.getItem('@vehicles');
+      if (jsonValue != null) {
+        setVehicles(JSON.parse(jsonValue));
+      }
+    };
+
+    const unsubscribe = navigation.addListener('focus', loadVehicles);
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      
       <Text style={styles.title}>Olá, Eduardo</Text>
       <Text style={styles.subtitle}>Seu controle de manutenção está aqui.</Text>
 
-      
       <Image
         source={require('../../assets/Logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
+
+      <Text style={styles.subtitle}>Veículos cadastrados</Text>
 
       <ScrollView
         horizontal
@@ -26,24 +49,18 @@ export default function HomeScreen({ navigation }: any) {
         contentContainerStyle={styles.cardScrollContent}
         style={styles.cardScroll}
       >
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Troca de óleo</Text>
-          <Text style={styles.cardText}>15/04/2025</Text>
-          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Revisão geral</Text>
-          <Text style={styles.cardText}>28/06/2025</Text>
-          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Alinhamento de Direção</Text>
-          <Text style={styles.cardText}>28/06/2025</Text>
-          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
-        </View>
-
+        {vehicles.length === 0 ? (
+          <Text style={{ color: '#64748b', fontSize: 16 }}>Nenhum veículo cadastrado.</Text>
+        ) : (
+          vehicles.map((vehicle, index) => (
+            <View key={index} style={styles.card}>
+              <Text style={styles.cardTitle}>{vehicle.marca} {vehicle.modelo}</Text>
+              <Text style={styles.cardText}>Ano: {vehicle.ano}</Text>
+              <Text style={styles.cardSubtext}>Placa: {vehicle.placa}</Text>
+              <Text style={styles.cardSubtext}>KM atual: {vehicle.quilometragem}</Text>
+            </View>
+          ))
+        )}
       </ScrollView>
 
       {/* Botões de ação */}

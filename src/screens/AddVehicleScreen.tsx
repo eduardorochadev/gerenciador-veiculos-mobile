@@ -1,124 +1,139 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function AddVehicleScreen({ navigation }: any) {
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
-  const [year, setYear] = useState('');
-  const [plate, setPlate] = useState('');
-  const [mileage, setMileage] = useState('');
+  const [marca, setMarca] = useState('');
+  const [modelo, setModelo] = useState('');
+  const [ano, setAno] = useState('');
+  const [placa, setPlaca] = useState('');
+  const [quilometragem, setQuilometragem] = useState('');
 
   const handleSave = async () => {
-    if (!brand || !model || !year || !plate || !mileage) {
-      Alert.alert('Erro', 'Preencha todos os campos');
+    if (!marca || !modelo || !ano || !placa || !quilometragem) {
+      Alert.alert('Preencha todos os campos');
       return;
     }
 
-    const newVehicle = {
-      id: Date.now(),
-      brand,
-      model,
-      year,
-      plate,
-      mileage,
-    };
+    const newVehicle = { marca, modelo, ano, placa, quilometragem };
 
     try {
       const storedVehicles = await AsyncStorage.getItem('@vehicles');
-      const vehicles = storedVehicles ? JSON.parse(storedVehicles) : [];
-      const updatedVehicles = [...vehicles, newVehicle];
+      const parsedVehicles = storedVehicles ? JSON.parse(storedVehicles) : [];
 
-      await AsyncStorage.setItem('@vehicles', JSON.stringify(updatedVehicles));
+      parsedVehicles.push(newVehicle);
+      await AsyncStorage.setItem('@vehicles', JSON.stringify(parsedVehicles));
 
-      Alert.alert('Sucesso', 'Veículo cadastrado com sucesso!');
-      navigation.goBack();
+      Alert.alert('Veículo salvo com sucesso!');
+      navigation.navigate('Home'); // Volta para Home após salvar
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao salvar o veículo');
+      console.error(error);
+      Alert.alert('Erro ao salvar o veículo');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Marca</Text>
-      <TextInput
-        value={brand}
-        onChangeText={setBrand}
-        placeholder="Ex: Honda"
-        style={styles.input}
-      />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Adicionar Veículo</Text>
 
-      <Text style={styles.label}>Modelo</Text>
       <TextInput
-        value={model}
-        onChangeText={setModel}
-        placeholder="Ex: Civic"
         style={styles.input}
+        placeholder="Marca"
+        value={marca}
+        onChangeText={setMarca}
       />
-
-      <Text style={styles.label}>Ano</Text>
       <TextInput
-        value={year}
-        onChangeText={setYear}
-        placeholder="Ex: 2019"
+        style={styles.input}
+        placeholder="Modelo"
+        value={modelo}
+        onChangeText={setModelo}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Ano"
         keyboardType="numeric"
-        style={styles.input}
+        value={ano}
+        onChangeText={setAno}
       />
-
-      <Text style={styles.label}>Placa</Text>
       <TextInput
-        value={plate}
-        onChangeText={setPlate}
-        placeholder="Ex: ABC1D23"
         style={styles.input}
+        placeholder="Placa"
+        value={placa}
+        onChangeText={setPlaca}
       />
-
-      <Text style={styles.label}>Quilometragem Atual</Text>
       <TextInput
-        value={mileage}
-        onChangeText={setMileage}
-        placeholder="Ex: 45000"
+        style={styles.input}
+        placeholder="Quilometragem atual"
         keyboardType="numeric"
-        style={styles.input}
+        value={quilometragem}
+        onChangeText={setQuilometragem}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Salvar</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Salvar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={styles.cancelText}>Cancelar</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 24,
     backgroundColor: '#f9fafe',
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
   },
-  label: {
-    fontSize: 16,
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 24,
+    textAlign: 'center',
     color: '#1e293b',
-    marginBottom: 6,
   },
   input: {
     borderWidth: 1,
     borderColor: '#cbd5e1',
-    padding: 12,
     borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
     backgroundColor: '#fff',
-    marginBottom: 14,
   },
-  button: {
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginTop: 20,
+  },
+  saveButton: {
+    flex: 1,
     backgroundColor: '#2563eb',
-    padding: 15,
+    padding: 14,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 10,
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: '#e2e8f0',
+    padding: 14,
+    borderRadius: 10,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
     fontWeight: '600',
-    fontSize: 16,
+  },
+  cancelText: {
+    color: '#334155',
+    fontWeight: '600',
   },
 });
+    
