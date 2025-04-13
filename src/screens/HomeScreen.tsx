@@ -5,21 +5,48 @@ import { Ionicons } from '@expo/vector-icons';
 export default function HomeScreen({ navigation }: any) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      
+      <Text style={styles.title}>Olá, Eduardo</Text>
+      <Text style={styles.subtitle}>Seu controle de manutenção está aqui.</Text>
+
+      
       <Image
         source={require('../../assets/Logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
 
-      <Text style={styles.title}>Olá, bem-vindo de volta!</Text>
-      <Text style={styles.subtitle}>Seu controle de manutenção está aqui.</Text>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={300}
+        snapToAlignment="center"
+        decelerationRate="fast"
+        contentContainerStyle={styles.cardScrollContent}
+        style={styles.cardScroll}
+      >
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Troca de óleo</Text>
+          <Text style={styles.cardText}>15/04/2025</Text>
+          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
+        </View>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Próxima manutenção</Text>
-        <Text style={styles.cardText}>Troca de óleo - 15/04/2025</Text>
-        <Text style={styles.cardSubtext}>Veículo: Honda Civic 2019</Text>
-      </View>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Revisão geral</Text>
+          <Text style={styles.cardText}>28/06/2025</Text>
+          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
+        </View>
 
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Alinhamento de Direção</Text>
+          <Text style={styles.cardText}>28/06/2025</Text>
+          <Text style={styles.cardSubtext}>Veículo: Ford Ranger 2005</Text>
+        </View>
+
+      </ScrollView>
+
+      {/* Botões de ação */}
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('AddVehicle')}>
           <Ionicons name="car-sport-outline" size={24} color="#fff" />
@@ -47,8 +74,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logo: {
-    width: 160,
-    height: 80,
+    width: 150,
+    height: 150,
     marginBottom: 20,
   },
   title: {
@@ -63,17 +90,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 30,
   },
+  cardScroll: {
+    width: '100%',
+    marginBottom: 30,
+  },
+  cardScrollContent: {
+    paddingHorizontal: 10,
+  },
   card: {
     backgroundColor: '#fff',
-    width: '100%',
+    width: 280,
+    marginHorizontal: 10,
     borderRadius: 12,
     padding: 20,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
-    marginBottom: 30,
     elevation: 3,
+    marginBottom: 20,
   },
   cardTitle: {
     fontSize: 18,
@@ -94,7 +129,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     gap: 10,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   actionButton: {
     backgroundColor: '#2563eb',
