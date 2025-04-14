@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import ActionButton from '../components/ActionButton';
-import { saveVehicle } from '../utils/storage';
+import { updateVehicle } from '../utils/storage';
 import { Vehicle } from '../types/vehicle';
 
-export default function AddVehicleScreen() {
+type RouteParams = {
+  params: {
+    vehicle: Vehicle;
+    index: number;
+  };
+};
+
+export default function EditVehicleScreen() {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<RouteParams, 'params'>>();
 
   const [vehicle, setVehicle] = useState<Vehicle>({
     marca: '',
@@ -16,17 +24,23 @@ export default function AddVehicleScreen() {
     quilometragem: '',
   });
 
+  useEffect(() => {
+    if (route.params?.vehicle) {
+      setVehicle(route.params.vehicle);
+    }
+  }, [route.params]);
+
   const handleChange = (key: keyof Vehicle, value: string) => {
     setVehicle({ ...vehicle, [key]: value });
   };
 
-  const handleSave = async () => {
+  const handleUpdate = async () => {
     if (!vehicle.marca || !vehicle.modelo || !vehicle.placa) {
       Alert.alert('Erro', 'Preencha todos os campos obrigatórios!');
       return;
     }
 
-    await saveVehicle(vehicle);
+    await updateVehicle(route.params.index, vehicle);
     navigation.goBack();
   };
 
@@ -36,7 +50,7 @@ export default function AddVehicleScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Adicionar Veículo</Text>
+      <Text style={styles.title}>Editar Veículo</Text>
 
       {(Object.keys(vehicle) as (keyof Vehicle)[]).map((field) => (
         <TextInput
@@ -49,7 +63,7 @@ export default function AddVehicleScreen() {
       ))}
 
       <View style={styles.buttonRow}>
-        <ActionButton label="Salvar" icon="checkmark-circle-outline" onPress={handleSave} />
+        <ActionButton label="Atualizar" icon="checkmark-done" onPress={handleUpdate} />
         <ActionButton label="Cancelar" icon="close-circle-outline" onPress={handleCancel} color="#64748b" />
       </View>
     </View>
@@ -58,29 +72,27 @@ export default function AddVehicleScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#f1f5f9',
     flex: 1,
+    padding: 20,
+    backgroundColor: '#f8fafc',
   },
   title: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
     color: '#1e293b',
-    marginBottom: 20,
   },
   input: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-    fontSize: 16,
-    borderColor: '#e2e8f0',
     borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    backgroundColor: '#fff',
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 10,
-    marginTop: 20,
     justifyContent: 'space-between',
+    marginTop: 20,
   },
 });

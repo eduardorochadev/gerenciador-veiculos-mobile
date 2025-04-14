@@ -67,18 +67,18 @@ export default function HomeScreen({ navigation }: any) {
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('AddVehicle')}>
           <Ionicons name="car-sport-outline" size={24} color="#fff" />
-          <Text style={styles.buttonText}>+ Veículo</Text>
+          <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('AddMaintenance')}>
           <Ionicons name="build-outline" size={24} color="#fff" />
-          <Text style={styles.buttonText}>+ Manutenção</Text>
+          <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('VehicleList')}>
-        <Text style={styles.secondaryText}>Ver todos os veículos</Text>
+        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('AllVehicles')}>
+        <Ionicons name="list-circle-outline" size={24} color="#fff" />
+        <Text style={styles.buttonText}></Text>
       </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   title: {
     fontSize: 24,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#64748b',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   cardScroll: {
     width: '100%',
