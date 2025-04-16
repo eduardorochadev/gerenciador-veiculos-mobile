@@ -7,7 +7,6 @@ Este é um projeto inicial de aplicação mobile utilizando **React Native** com
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
 - [React Navigation](https://reactnavigation.org/)
-- [Axios](https://axios-http.com/)
 
 ---
 
