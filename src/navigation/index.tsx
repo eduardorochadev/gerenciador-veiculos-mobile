@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import AddVehicleScreen from '../screens/AddVehicleScreen';
 import EditVehicleScreen from '../screens/EditVehicleScreen';
 import AllVehiclesScreen from '../screens/AllVehiclesScreen';
+import AddMaintenanceScreen from '../screens/AddMaintenanceScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function Routes() {
         <Stack.Screen name="AddVehicle" component={AddVehicleScreen} />
         <Stack.Screen name="EditVehicle" component={EditVehicleScreen} />
         <Stack.Screen name="AllVehicles" component={AllVehiclesScreen} />
+        <Stack.Screen name="AddMaintenance" component={AddMaintenanceScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

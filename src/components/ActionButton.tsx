@@ -9,10 +9,10 @@ type Props = {
   color?: string;
 };
 
-export default function ActionButton({ label, icon, onPress, color = '#2563eb' }: Props) {
+export default function ActionButton({ label, icon, onPress }: Props) {
   return (
-    <TouchableOpacity style={[styles.button, { backgroundColor: color }]} onPress={onPress}>
-      {icon && <Ionicons name={icon} size={20} color="#fff" />}
+    <TouchableOpacity style={[styles.button,]} onPress={onPress}>
+      {icon && <Ionicons name={icon} size={20} />}
       <Text style={styles.text}>{label}</Text>
     </TouchableOpacity>
   );
@@ -20,16 +20,21 @@ export default function ActionButton({ label, icon, onPress, color = '#2563eb' }
 
 const styles = StyleSheet.create({
   button: {
+    width: '50%',
+    backgroundColor: '#2563eb',
     flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 8,
     alignItems: 'center',
     gap: 6,
+    justifyContent: 'center',
+    marginBottom: 5,
   },
   text: {
     color: '#fff',
     fontWeight: '600',
     fontSize: 16,
+    
   },
 });
