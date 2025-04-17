@@ -19,10 +19,10 @@ Este é um projeto inicial de aplicação mobile utilizando **React Native** com
 │   ├── components/         # Componentes reutilizáveis
 │   ├── screens/            # Telas principais da aplicação
 │   ├── navigation/         # Configuração de rotas
-│   ├── services/           # Serviços e chamadas de API
-│   ├── context/            # Contextos globais (ex: Auth, Theme)
+│   ├── types/              # Tipos personalizados
 │   └── utils/              # Funções utilitárias
-├── App.js                  # Componente raiz da aplicação
+├── App.tsx                 # Ponto de entrada da aplicação
+├── index.ts                # Ponto de entrada do Expo
 ├── app.json                # Configurações do projeto Expo
 └── README.md               # Documentação do projeto
 ```
